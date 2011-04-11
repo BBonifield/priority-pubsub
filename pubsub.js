@@ -73,9 +73,12 @@
 		//	|	$.subscribe("/some/topic", function(a, b, c){ /* handle data */ });
 		//	|	$.subscribe("/some/topic", 20, function(a, b, c){ /* handle data */ });
 
-		default_priority = d.subscribe.default_priority;
-		callback = callback || priority;
-		priority = callback ? priority || default_priority : default_priority;
+		var default_priority = d.subscribe.default_priority,
+		    priority_not_provided = typeof callback === 'undefined';
+		if (priority_not_provided){
+			callback = priority;
+			priority = default_priority;
+		}
 		if(!cache[topic]){
 			cache[topic] = [];
 		}
